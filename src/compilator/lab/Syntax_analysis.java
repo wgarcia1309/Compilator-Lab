@@ -14,19 +14,23 @@ import java.util.Stack;
  */
 public class Syntax_analysis {
 
-    final String WORD;
+    String WORD;
     Stack<String> stack, input;
     String[][] output;
     M_table mtable;
 
-    public Syntax_analysis(String WORD, M_table mtable, String source) {
+    public Syntax_analysis() {
+        
+    }
+    
+    public void analisys(String WORD, M_table mtable, String source){
         this.WORD = WORD;
         this.mtable = mtable;
         stack = new Stack();
         input = new Stack();
         process(source);
+        
     }
-
     private void process(String source) {
         stack.push("$");
         stack.push(source);
