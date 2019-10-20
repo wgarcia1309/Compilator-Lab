@@ -20,17 +20,9 @@ public class CompilatorLab {
      */
     public static void main(String[] args) {
         Gramatic g= new Gramatic();
-       /* g.addPro("S", "Ab");
-        g.addPro("S", "B");
-        g.addPro("A", "cC");
-        g.addPro("A", "dC");
-        g.addPro("C", "aC");
-        g.addPro("C", "&");
-        g.addPro("B", "aD");
-        g.addPro("D", "B");
-        g.addPro("D", "&");
+       /*
         */
-        testM1(g);
+        test6(g);
        
 
         System.out.println("Productions");
@@ -49,14 +41,16 @@ public class CompilatorLab {
         keys=g.getFollows().keySet();
         for (String key : keys) {
             System.out.println(key+":"+g.getFollows().get(key));
-        }
-        
-        
+        }        
         M_table mTable= new M_table(g);
+        System.out.println("M table");
+        mTable.showt();
         Syntax_analysis sa = new Syntax_analysis();
+        System.out.println("\n\nANALISIS");
+        sa.analisys("bcdefg", mTable);
         /*
         System.out.println("cb");
-        sa.analisys("cb", mTable,"S");
+        
         /*
         System.out.println("caaaaaab");
         sa.analisys("caaaaaab", mTable,"S");
@@ -152,7 +146,18 @@ public class CompilatorLab {
         g.addPro("F","i");
         g.addPro("F","E");
     }
-    
+     private static void testW(Gramatic g){
+         g.setInitial("S");
+          g.addPro("S", "Ab");
+        g.addPro("S", "B");
+        g.addPro("A", "cC");
+        g.addPro("A", "dC");
+        g.addPro("C", "aC");
+        g.addPro("C", "&");
+        g.addPro("B", "aD");
+        g.addPro("D", "B");
+        g.addPro("D", "&");
+     }
     private static void test5(Gramatic g){
         g.addPro("S","a");
         g.addPro("S","ab");
@@ -163,6 +168,7 @@ public class CompilatorLab {
     }
     
     private static void test6(Gramatic g){
+        g.setInitial("A");
         g.addPro("A","BCDEfG");
         g.addPro("B","b");
         g.addPro("B","&");

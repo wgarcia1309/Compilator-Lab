@@ -17,7 +17,7 @@ import java.util.Set;
 public class Gramatic {
 
     private Hashtable<String, Set<String>> productions, first, follow;
-    String initial;
+    private String initial;
 
     public Gramatic() {
         productions = new Hashtable<String, Set<String>>();
@@ -25,6 +25,10 @@ public class Gramatic {
         follow = new Hashtable<String, Set<String>>();
     }
 
+    public String getInitial() {
+        return initial;
+    }
+ 
     public Gramatic(String initial) {
         this.initial = initial;
         productions = new Hashtable<String, Set<String>>();

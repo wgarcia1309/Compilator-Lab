@@ -23,12 +23,12 @@ public class Syntax_analysis {
         
     }
     
-    public void analisys(String WORD, M_table mtable, String source){
+    public void analisys(String WORD, M_table mtable){
         this.WORD = WORD;
         this.mtable = mtable;
         stack = new Stack();
         input = new Stack();
-        process(source);
+        process(mtable.gram.getInitial());
         
     }
     private void process(String source) {
@@ -49,11 +49,13 @@ public class Syntax_analysis {
                 stack.pop();
                 input.pop();
             } else {
+                
                 out = mtable.getOut(stop,intop);
                 if (out == null) {
                     break;
                 }
                 stack.pop();
+                out=out.replaceAll("&", "");
                 for (int i = 0; i < out.length(); i++) {
                     stack.push(out.charAt(out.length() - i - 1) + "");
                 }
