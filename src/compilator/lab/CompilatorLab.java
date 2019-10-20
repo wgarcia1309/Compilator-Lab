@@ -19,7 +19,7 @@ public class CompilatorLab {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Gramatic g= new Gramatic("S");
+        Gramatic g= new Gramatic();
        /* g.addPro("S", "Ab");
         g.addPro("S", "B");
         g.addPro("A", "cC");
@@ -30,7 +30,7 @@ public class CompilatorLab {
         g.addPro("D", "B");
         g.addPro("D", "&");
         */
-        testM2(g);
+        testM1(g);
        
 
         System.out.println("Productions");
@@ -45,43 +45,16 @@ public class CompilatorLab {
             System.out.println(key+":"+g.getFisrts().get(key));
         }
         
-        /*
-        ArrayList<Character> temp = new ArrayList();
-        temp.add('c');
-        temp.add('d');
-        temp.add('a');
-        g.first.put('S', temp);
+        System.out.println("Follow");
+        keys=g.getFollows().keySet();
+        for (String key : keys) {
+            System.out.println(key+":"+g.getFollows().get(key));
+        }
         
-        temp = new ArrayList();
-        temp.add('c');
-        temp.add('d');
-        g.first.put('A', temp);
-        
-        temp = new ArrayList();
-        temp.add('a');
-        temp.add('&');
-        g.first.put('C', temp);
-        g.first.put('D', temp);
-        temp = new ArrayList();
-        temp.add('a');
-        g.first.put('B', temp);
-        
-        
-        temp = new ArrayList();
-        temp.add('$');
-        g.follow.put('S', temp);
-        g.follow.put('B', temp);
-        g.follow.put('D', temp);
-        
-        
-        temp = new ArrayList();
-        temp.add('b');
-        g.follow.put('A', temp);
-        g.follow.put('C', temp);
         
         M_table mTable= new M_table(g);
         Syntax_analysis sa = new Syntax_analysis();
-        
+        /*
         System.out.println("cb");
         sa.analisys("cb", mTable,"S");
         /*
@@ -116,9 +89,15 @@ public class CompilatorLab {
     }
     
     private static void testM1(Gramatic g){
-        
-         g.addPro("A","BCDEfG");
-         //g.addPro("A","&");
+        g.setInitial("A");
+         g.addPro("A","BCDE");
+         /*
+         g.addPro("A","&");
+         g.addPro("H","h");
+         g.addPro("H","&");
+         g.addPro("G","g");
+         g.addPro("G","&");
+         */
          g.addPro("B","b");
          g.addPro("B","&");
          g.addPro("C","c");
@@ -127,23 +106,21 @@ public class CompilatorLab {
          g.addPro("D","&");
          g.addPro("E","e");
          g.addPro("E","&");
-         g.addPro("G","g");
-         g.addPro("G","&");
     }
     
     
     private static void testM2(Gramatic g){
-        
-    g.addPro("A","BCBDeL");
-    g.addPro("A","z");
-    g.addPro("B","aBB");
-    g.addPro("B","aBbB");
-    g.addPro("B","&");
-    g.addPro("C","DeF");
-    g.addPro("C","&");
-    g.addPro("D","abcd");
-    g.addPro("F","f");
-    g.addPro("L","l");
+        g.setInitial("A");
+        g.addPro("A","BCBDeL");
+        g.addPro("A","z");
+        g.addPro("B","aBB");
+        g.addPro("B","aBbB");
+        g.addPro("B","&");
+        g.addPro("C","DeF");
+        g.addPro("C","&");
+        g.addPro("D","abcd");
+        g.addPro("F","f");
+        g.addPro("L","l");
     }
     
     

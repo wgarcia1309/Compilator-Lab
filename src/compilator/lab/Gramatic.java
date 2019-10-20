@@ -17,7 +17,7 @@ import java.util.Set;
 public class Gramatic {
 
     private Hashtable<String, Set<String>> productions, first, follow;
-    String origin;
+    String initial;
 
     public Gramatic() {
         productions = new Hashtable<String, Set<String>>();
@@ -25,15 +25,25 @@ public class Gramatic {
         follow = new Hashtable<String, Set<String>>();
     }
 
-    public Gramatic(String origin) {
-        this.origin = origin;
+    public Gramatic(String initial) {
+        this.initial = initial;
         productions = new Hashtable<String, Set<String>>();
         first = new Hashtable<String, Set<String>>();
         follow = new Hashtable<String, Set<String>>();
     }
 
+    private void createNodes() {
+        Set<String> prokeys = productions.keySet();
+        for (String prokey : prokeys) {
+            first.put(prokey, new HashSet<String>());
+            follow.put(prokey, new HashSet<String>());
+        }
+    }
+
     public void compute() {
+        createNodes();
         ComputeFirst();
+        computeFollow();
     }
 
     private void ComputeFirst() {
@@ -41,13 +51,7 @@ public class Gramatic {
         for (String key : keys) {
             for (String produc : productions.get(key)) {
                 if (!isNonTerminal(produc)) {
-                    if (first.get(key) == null) {
-                        Set<String> temp = new HashSet<String>();
-                        temp.add(produc.charAt(0) + "");
-                        first.put(key, temp);
-                    } else {
-                        first.get(key).add(produc.charAt(0) + "");
-                    }
+                    first.get(key).add(produc.charAt(0) + "");
                 }
             }
         }
@@ -71,11 +75,7 @@ public class Gramatic {
                         }
                     }
                 }
-                if (first.get(key) == null) {
-                    first.put(key, temporalSet);
-                } else {
-                    combine(first.get(key), temporalSet);
-                }
+                combine(first.get(key), temporalSet);
             }
         }
     }
@@ -100,6 +100,10 @@ public class Gramatic {
         return first;
     }
 
+    Hashtable<String, Set<String>> getFollows() {
+        return follow;
+    }
+
     Set<String> getFollow(char key) {
         return follow.get(key);
     }
@@ -121,6 +125,81 @@ public class Gramatic {
 
     private void combine(Set<String> temp, Set<String> primeroPro) {
         temp.addAll(primeroPro);
+    }
+
+    private void computeFollow() {
+        // Add $ to FOLLOW(S), where S is the start symbol
+        follow.get(initial).add("$");
+        regla2();
+        regla3();
+    }
+
+    /**
+     * If B → αAω is a production, set FOLLOW(A) = FOLLOW(A) ∪ FIRST*(ω) - { ε
+     * }.
+     */
+    public void regla2() {
+        Set<String> prokeys = productions.keySet();
+        for (String prokey : prokeys) {
+            for (String production : productions.get(prokey)) {
+
+                int i = 0;
+                while (i < production.length() - 1) {
+                    if (isNonTerminal(production.charAt(i))) {
+                        int j = i + 1;
+                        while (j < production.length()) {
+                            Set<String> temp = new HashSet<String>();
+                            if (isNonTerminal(production.charAt(j))) {
+                                temp.addAll(first.get(production.charAt(j) + ""));
+                                if (temp.contains("&")) {
+                                    temp.remove("&");
+                                    combine(follow.get(production.charAt(i) + ""), temp);
+                                    j++;
+                                } else {
+                                    combine(follow.get(production.charAt(i) + ""), temp);
+                                    break;
+                                }
+                            } else {
+                                temp.add(production.charAt(j) + "");
+                                combine(follow.get(production.charAt(i) + ""), temp);
+                                break;
+                            }
+                        }
+                    }
+                    i++;
+                }
+            }
+        }
+    }
+
+    public void setInitial(String initial) {
+        this.initial = initial;
+    }
+
+    /**
+     * If B → αAω is a production and ε ∈ FIRST*(ω), set FOLLOW(A) = FOLLOW(A) ∪
+     * FOLLOW(B).
+     */
+    private void regla3() {
+        Set<String> prokeys = productions.keySet();
+        for (String prokey : prokeys) {
+            for (String production : productions.get(prokey)) {
+                int i = production.length() - 1;
+                while (i >= 0) {
+                    if (isNonTerminal(production.charAt(i))) {
+                        combine(follow.get(production.charAt(i) + ""), follow.get(prokey));
+                        if (hasEpsilon(first.get((production.charAt(i) + "")))) {
+                            i--;
+                        } else {
+                            break;
+                        }
+
+                    } else {
+                        break;
+                    }
+                }
+            }
+        }
     }
 
 }
