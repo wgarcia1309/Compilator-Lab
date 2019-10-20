@@ -24,13 +24,14 @@ public class M_table {
         this.gram=gram ;
         terminals = new ArrayList();
         non_terminals = new ArrayList();
-        creation();
+        
     }
-
+/*
     private void creation() {
         for (Production pro : gram.getPro()) {
             char charact=pro.destiny.charAt(0);
             if ( isMayus(charact)) {
+                
                 for (Character first : gram.getFisrt(pro.destiny.charAt(0))) {
                     if (first == '&') {
                         for (Character follow : gram.getFollow(pro.source.charAt(0))) {
@@ -40,6 +41,7 @@ public class M_table {
                         this.add(pro.source, first.toString(), pro.destiny);
                     }
                 }
+                
             } else {
                 if (charact == '&') {
                     for (Character follow : gram.getFollow(pro.source.charAt(0))) {
@@ -52,10 +54,9 @@ public class M_table {
             }
         }
     }
-    
+  */  
     private boolean isMayus(char c){
         return ((int) c>=65 && (int) c<=90);
-        
     }
     private void add(String non_terminal, String terminal, String out) {
         ht.put(non_terminal + terminal, out);
