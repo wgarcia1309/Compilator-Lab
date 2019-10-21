@@ -100,11 +100,11 @@ public class Gramatic {
         return first.get(key);
     }
 
-    Hashtable<String, Set<String>> getFisrts() {
+    public Hashtable<String, Set<String>> getFisrts() {
         return first;
     }
 
-    Hashtable<String, Set<String>> getFollows() {
+    public Hashtable<String, Set<String>> getFollows() {
         return follow;
     }
 

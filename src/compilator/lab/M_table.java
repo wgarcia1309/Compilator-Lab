@@ -28,6 +28,14 @@ public class M_table {
         createnodes();
         makeMTable();
     }
+
+    public Set<String> getTerminals() {
+        return terminals;
+    }
+
+    public Set<String> getNon_terminals() {
+        return non_terminals;
+    }
     
     private void createnodes() {
         Set<String> keys = gram.getProductions().keySet();
@@ -90,7 +98,7 @@ public class M_table {
         ht.put(non_terminal + terminal, out);
     }
 
-    String getOut(String stop, String intop) {
+    public String getOut(String stop, String intop) {
         return ht.get(stop + intop);
     }
 

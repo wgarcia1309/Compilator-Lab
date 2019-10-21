@@ -5,6 +5,7 @@
  */
 package compilator.lab;
 
+import GUI.MainWin;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Set;
@@ -19,12 +20,17 @@ public class CompilatorLab {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Gramatic g= new Gramatic();
-       /*
+        /*
+        
         */
+        MainWin windows = new MainWin();
+        windows.setResizable(false);
+        windows.setLocationRelativeTo(null);
+        windows.setVisible(true);
+        Gramatic g= new Gramatic();
+        
+        
         test6(g);
-       
-
         System.out.println("Productions");
         Set<String> keys=g.getProductions().keySet();
         for (String key : keys) {

@@ -23,15 +23,14 @@ public class Syntax_analysis {
         
     }
     
-    public void analisys(String WORD, M_table mtable){
+    public boolean analisys(String WORD, M_table mtable){
         this.WORD = WORD;
         this.mtable = mtable;
         stack = new Stack();
         input = new Stack();
-        process(mtable.gram.getInitial());
-        
+        return process(mtable.gram.getInitial());
     }
-    private void process(String source) {
+    private boolean process(String source) {
         stack.push("$");
         stack.push(source);
         input.push("$");
@@ -66,8 +65,10 @@ public class Syntax_analysis {
         }
         if (out != null) {
             System.out.println("Acepted");
+            return true;
         } else {
             System.out.println("Invalid");
+            return false;
         }
     }
 
