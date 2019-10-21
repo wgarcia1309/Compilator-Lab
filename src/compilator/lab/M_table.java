@@ -5,9 +5,9 @@
  */
 package compilator.lab;
 
-import java.util.ArrayList;
-import java.util.HashSet;
+
 import java.util.Hashtable;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 /**
@@ -23,12 +23,13 @@ public class M_table {
     public M_table(Gramatic gram) {
         ht = new Hashtable<String, String>();
         this.gram = gram;
-        terminals = new HashSet<String>();
-        non_terminals = new HashSet<String>();
+        terminals = new LinkedHashSet<String>();
+        non_terminals = new LinkedHashSet<String>();
         createnodes();
         makeMTable();
     }
-
+    
+    
     public Set<String> getTerminals() {
         return terminals;
     }
@@ -40,6 +41,7 @@ public class M_table {
     private void createnodes() {
         Set<String> keys = gram.getProductions().keySet();
         for (String key : keys) {
+            
             non_terminals.add(key);
             for (String production : gram.getProductions().get(key)) {
                 for (Character c : production.toCharArray()) {
@@ -51,7 +53,6 @@ public class M_table {
                 }
             }
         }
-        terminals.add("$");
     }
 
     private void makeMTable() {
@@ -62,10 +63,8 @@ public class M_table {
         for (String prokey : prokeys) {
             Set<String> productions = gram.getProductions().get(prokey);
             for (String production : productions) {
-                System.out.println("Produc " + production);
                 Character charact = production.charAt(0);
                 if (isMayus(charact)) {/*Non-Terminal*/
-                    System.out.println("charac"+charact);
                     for (String first : gram.getFisrts().get(charact.toString())) {
                         if (first.equals("&")) {
                             for (String follow : gram.getFollows().get(charact.toString())) {

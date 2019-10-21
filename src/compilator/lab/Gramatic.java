@@ -5,9 +5,9 @@
  */
 package compilator.lab;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Hashtable;
+
+import java.util.LinkedHashMap ;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 /**
@@ -16,13 +16,13 @@ import java.util.Set;
  */
 public class Gramatic {
 
-    private Hashtable<String, Set<String>> productions, first, follow;
+    private LinkedHashMap <String, Set<String>> productions, first, follow;
     private String initial;
 
     public Gramatic() {
-        productions = new Hashtable<String, Set<String>>();
-        first = new Hashtable<String, Set<String>>();
-        follow = new Hashtable<String, Set<String>>();
+        productions = new LinkedHashMap <String, Set<String>>();
+        first = new LinkedHashMap <String, Set<String>>();
+        follow = new LinkedHashMap <String, Set<String>>();
     }
 
     public String getInitial() {
@@ -31,16 +31,16 @@ public class Gramatic {
  
     public Gramatic(String initial) {
         this.initial = initial;
-        productions = new Hashtable<String, Set<String>>();
-        first = new Hashtable<String, Set<String>>();
-        follow = new Hashtable<String, Set<String>>();
+        productions = new LinkedHashMap <String, Set<String>>();
+        first = new LinkedHashMap <String, Set<String>>();
+        follow = new LinkedHashMap <String, Set<String>>();
     }
 
     private void createNodes() {
         Set<String> prokeys = productions.keySet();
         for (String prokey : prokeys) {
-            first.put(prokey, new HashSet<String>());
-            follow.put(prokey, new HashSet<String>());
+            first.put(prokey, new LinkedHashSet<String>());
+            follow.put(prokey, new LinkedHashSet<String>());
         }
     }
 
@@ -61,7 +61,7 @@ public class Gramatic {
         }
         for (String key : keys) {
             for (String produc : productions.get(key)) {
-                Set<String> temporalSet = new HashSet<String>();
+                Set<String> temporalSet = new LinkedHashSet<String>();
                 if (isNonTerminal(produc)) {
                     int i = 0;
                     while (i < produc.length() && isNonTerminal(produc.charAt(i))) {
@@ -92,7 +92,7 @@ public class Gramatic {
         return s.charAt(0) >= 'A' && s.charAt(0) <= 'Z';
     }
 
-    public Hashtable<String, Set<String>> getProductions() {
+    public LinkedHashMap <String, Set<String>> getProductions() {
         return productions;
     }
 
@@ -100,11 +100,11 @@ public class Gramatic {
         return first.get(key);
     }
 
-    public Hashtable<String, Set<String>> getFisrts() {
+    public LinkedHashMap <String, Set<String>> getFisrts() {
         return first;
     }
 
-    public Hashtable<String, Set<String>> getFollows() {
+    public LinkedHashMap <String, Set<String>> getFollows() {
         return follow;
     }
 
@@ -114,13 +114,12 @@ public class Gramatic {
 
     public void addPro(String source, String destiny) {
         if (productions.get(source) == null) {
-            Set<String> temp = new HashSet<String>();
+            Set<String> temp = new LinkedHashSet<String>();
             temp.add(destiny);
             productions.put(source, temp);
         } else {
             productions.get(source).add(destiny);
         }
-
     }
 
     private boolean hasEpsilon(Set<String> primeroPro) {
@@ -152,7 +151,7 @@ public class Gramatic {
                     if (isNonTerminal(production.charAt(i))) {
                         int j = i + 1;
                         while (j < production.length()) {
-                            Set<String> temp = new HashSet<String>();
+                            Set<String> temp = new LinkedHashSet<String>();
                             if (isNonTerminal(production.charAt(j))) {
                                 temp.addAll(first.get(production.charAt(j) + ""));
                                 if (temp.contains("&")) {

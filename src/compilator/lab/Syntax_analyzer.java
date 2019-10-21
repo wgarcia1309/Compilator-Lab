@@ -12,14 +12,14 @@ import java.util.Stack;
  *
  * @author PC
  */
-public class Syntax_analysis {
+public class Syntax_analyzer {
 
     String WORD;
     Stack<String> stack, input;
     String[][] output;
     M_table mtable;
 
-    public Syntax_analysis() {
+    public Syntax_analyzer() {
         
     }
     

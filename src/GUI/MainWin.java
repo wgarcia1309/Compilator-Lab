@@ -8,10 +8,12 @@ package GUI;
 import compilator.lab.Factorizacion;
 import compilator.lab.Gramatic;
 import compilator.lab.M_table;
-import compilator.lab.Syntax_analysis;
+import compilator.lab.Syntax_analyzer;
 import java.awt.FileDialog;
 import java.awt.Frame;
 import java.util.Hashtable;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.TreeSet;
 import javax.swing.JOptionPane;
@@ -23,14 +25,15 @@ import javax.swing.table.DefaultTableModel;
  * @author PC
  */
 public class MainWin extends javax.swing.JFrame {
-     Syntax_analysis sa; 
+     Syntax_analyzer sa; 
      M_table mt;
+     
     /**
      * Creates new form MainWin
      */
     public MainWin() {
         initComponents();
-        sa=new Syntax_analysis();
+        sa=new Syntax_analyzer();
     }
 
     /**
@@ -226,10 +229,10 @@ public class MainWin extends javax.swing.JFrame {
             Factorizacion fact= new Factorizacion(dialog.getDirectory()+dialog.getFile() );
             Gramatic g=fact.getminG();
             g.compute();
+            mt= new M_table(g);
             fillGSV(Gramaticas,g.getProductions());
             fill(FirstTA,g.getFisrts(),true);
-            fill(FollowTA,g.getFollows(),false);
-            mt= new M_table(g);
+            fill(FollowTA,g.getFollows(),false);            
             fillM();
         }
 
@@ -302,10 +305,10 @@ public class MainWin extends javax.swing.JFrame {
     private javax.swing.JTextField word;
     // End of variables declaration//GEN-END:variables
 
-    private void fill(JTextArea TA, Hashtable<String, Set<String>> set,boolean first) {
+    private void fill(JTextArea TA, LinkedHashMap <String, Set<String>> set,boolean first) {
         TA.setEditable(true);
         TA.setText("");
-        Set<String> keys=set.keySet();
+        Set<String> keys=mt.getNon_terminals();
         for (String key : keys) {
             if(first)TA.append("PRIMERO("+key+") : "+set.get(key)+"\n");
             else TA.append("SIGUIENTE("+key+") : "+set.get(key)+"\n");
@@ -313,26 +316,24 @@ public class MainWin extends javax.swing.JFrame {
         TA.setEditable(false);
     }
 
-    private void fillGSV(JTextArea TA, Hashtable<String, Set<String>> set) {
+    private void fillGSV(JTextArea TA, LinkedHashMap<String, Set<String>> set) {
         TA.setEditable(true);
         TA.setText("");
-        Set<String> keys=set.keySet();
+        Set<String> keys=mt.getNon_terminals();
         for (String key : keys) {
-            
             for (String prod : set.get(key)) {
                 TA.append(key+" -> "+prod+"\n");    
             }
-            
-            
         }
         TA.setEditable(false);
     }
 
     private void fillM() {
         
-        TreeSet<String> temp=new TreeSet<>();
+        Set<String> temp=new LinkedHashSet<String>();
+        temp.add("NT\\T");
         temp.addAll(mt.getTerminals());
-        temp.add(" ");
+        temp.add("$");
         DefaultTableModel model= new DefaultTableModel(temp.toArray(),mt.getNon_terminals().size()){
             @Override
             public boolean isCellEditable(int row, int column){  

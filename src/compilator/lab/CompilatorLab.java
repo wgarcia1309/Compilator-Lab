@@ -27,6 +27,8 @@ public class CompilatorLab {
         windows.setResizable(false);
         windows.setLocationRelativeTo(null);
         windows.setVisible(true);
+        
+        
         Gramatic g= new Gramatic();
         
         
@@ -51,9 +53,9 @@ public class CompilatorLab {
         M_table mTable= new M_table(g);
         System.out.println("M table");
         mTable.showt();
-        Syntax_analysis sa = new Syntax_analysis();
-        System.out.println("\n\nANALISIS");
-        sa.analisys("bcdefg", mTable);
+        Syntax_analyzer sa = new Syntax_analyzer();
+        
+        sa.analisys("b", mTable);
         /*
         System.out.println("cb");
         
