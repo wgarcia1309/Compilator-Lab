@@ -5,8 +5,7 @@
  */
 package compilator.lab;
 
-
-import java.util.LinkedHashMap ;
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -16,24 +15,24 @@ import java.util.Set;
  */
 public class Gramatic {
 
-    private LinkedHashMap <String, Set<String>> productions, first, follow;
+    private LinkedHashMap<String, Set<String>> productions, first, follow;
     private String initial;
 
     public Gramatic() {
-        productions = new LinkedHashMap <String, Set<String>>();
-        first = new LinkedHashMap <String, Set<String>>();
-        follow = new LinkedHashMap <String, Set<String>>();
+        productions = new LinkedHashMap<String, Set<String>>();
+        first = new LinkedHashMap<String, Set<String>>();
+        follow = new LinkedHashMap<String, Set<String>>();
     }
 
     public String getInitial() {
         return initial;
     }
- 
+
     public Gramatic(String initial) {
         this.initial = initial;
-        productions = new LinkedHashMap <String, Set<String>>();
-        first = new LinkedHashMap <String, Set<String>>();
-        follow = new LinkedHashMap <String, Set<String>>();
+        productions = new LinkedHashMap<String, Set<String>>();
+        first = new LinkedHashMap<String, Set<String>>();
+        follow = new LinkedHashMap<String, Set<String>>();
     }
 
     private void createNodes() {
@@ -59,29 +58,37 @@ public class Gramatic {
                 }
             }
         }
-        for (String key : keys) {
-            for (String produc : productions.get(key)) {
-                Set<String> temporalSet = new LinkedHashSet<String>();
-                if (isNonTerminal(produc)) {
-                    int i = 0;
-                    while (i < produc.length() && isNonTerminal(produc.charAt(i))) {
-                        Set<String> primeroPro = first.get(produc.charAt(i) + "");
-                        combine(temporalSet, primeroPro);
-                        if (!primeroPro.contains("&")) {
-                            break;
+         LinkedHashMap<String, Set<String>> newfirst= new LinkedHashMap<String, Set<String>>();
+         int invariable=0;
+        do {
+            for (String key : keys) {
+                newfirst= (LinkedHashMap<String, Set<String>>) first.clone();
+                for (String produc : productions.get(key)) {
+                    Set<String> temporalSet = new LinkedHashSet<String>();
+                    if (isNonTerminal(produc)) {
+                        int i = 0;
+                        while (i < produc.length() && isNonTerminal(produc.charAt(i))) {
+                            Set<String> primeroPro = newfirst.get(produc.charAt(i) + "");
+                            combine(temporalSet, primeroPro);
+                            if (!primeroPro.contains("&")) {
+                                break;
+                            }
+                            i++;
                         }
-                        i++;
-                    }
-                    if (i < produc.length()) {
-                        temporalSet.remove("&");
-                        if (!isNonTerminal(produc.charAt(i))) {
-                            temporalSet.add(produc.charAt(i) + "");
+                        if (i < produc.length()) {
+                            temporalSet.remove("&");
+                            if (!isNonTerminal(produc.charAt(i))) {
+                                temporalSet.add(produc.charAt(i) + "");
+                            }
                         }
                     }
+                    combine(newfirst.get(key), temporalSet);
                 }
-                combine(first.get(key), temporalSet);
             }
-        }
+            if(!areEquals(first,newfirst))invariable=0;
+            else invariable++;
+        } while ( invariable<3 );
+        first=newfirst;
     }
 
     private boolean isNonTerminal(char c) {
@@ -92,7 +99,7 @@ public class Gramatic {
         return s.charAt(0) >= 'A' && s.charAt(0) <= 'Z';
     }
 
-    public LinkedHashMap <String, Set<String>> getProductions() {
+    public LinkedHashMap<String, Set<String>> getProductions() {
         return productions;
     }
 
@@ -100,11 +107,11 @@ public class Gramatic {
         return first.get(key);
     }
 
-    public LinkedHashMap <String, Set<String>> getFisrts() {
+    public LinkedHashMap<String, Set<String>> getFisrts() {
         return first;
     }
 
-    public LinkedHashMap <String, Set<String>> getFollows() {
+    public LinkedHashMap<String, Set<String>> getFollows() {
         return follow;
     }
 
@@ -203,6 +210,19 @@ public class Gramatic {
                 }
             }
         }
+    }
+
+    
+
+    private boolean areEquals(LinkedHashMap<String, Set<String>> first, LinkedHashMap<String, Set<String>> newfirst) {
+        Set<String> keys= this.first.keySet();
+         for (String key : keys) {
+             System.out.println( this.first.get(key) +" "+newfirst.get(key));
+             if(   !this.first.get(key).equals(newfirst.get(key))){
+                return false;
+             }
+        }
+        return true;
     }
 
 }
