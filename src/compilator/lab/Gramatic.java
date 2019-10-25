@@ -103,6 +103,11 @@ public class Gramatic {
         return productions;
     }
 
+    public void setProductions(LinkedHashMap<String, Set<String>> productions) {
+        this.productions = productions;
+    }
+    
+    
     Set<String> getFisrt(char key) {
         return first.get(key);
     }

@@ -9,6 +9,9 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 /**
@@ -33,7 +36,7 @@ public class Factorizacion {
     
     
     public Gramatic getminG() {
-        return originalG;
+        return minG;
     }
 
     private void process() {
@@ -53,9 +56,9 @@ public class Factorizacion {
                     originalG.setInitial(sd[0]);
                     minG.setInitial(sd[0]);
                 }
-                minG.addPro(sd[0] , sd[1]);
+                minG.addPro(sd[0], sd[1] );
                 originalG.addPro(sd[0], sd[1]);
-                alphabet[ sd[0].charAt(0)-'A' ]=true;
+                alphabet[sd[0].charAt(0)-'A']=true;
                 line=br.readLine();
             }
         }catch(Exception e){
@@ -88,13 +91,38 @@ public class Factorizacion {
 
     private void removeRecursivity() {
         Set<String> keys = minG.getProductions().keySet();
+        LinkedHashMap<String, Set<String>> newProductions = (LinkedHashMap<String, Set<String>>) minG.getProductions().clone();
         for (String key : keys) {
-            
+            ArrayList<String> alpha= new ArrayList<>(), beta= new ArrayList<>();
+            newProductions.put(key, new LinkedHashSet<>());
+            boolean hasr=false;
             for (String result : minG.getProductions().get(key)) {
-                
+                if(key.charAt(0)==result.charAt(0)){
+                    hasr=true;
+                    alpha.add(result.substring(1, result.length()-1));
+                }else{
+                    beta.add(result);
+                }
             }
-            
+            if(hasr){
+                String nuevaletra=getLetter();
+                Set<String> set=new LinkedHashSet<>();
+                for (String string : beta) {
+                    set.add(beta+nuevaletra);
+                }
+                newProductions.get(key).addAll(set);
+                newProductions.get(key).addAll(set);
+                set=new LinkedHashSet<>();
+                for (String string : alpha) {
+                    set.add(alpha+nuevaletra);
+                }
+                System.out.println(set.toString());
+                newProductions.put(nuevaletra, set);
+            }else{
+                newProductions.put(key, minG.getProductions().get(key) );
+            }
         }
+        minG.setProductions(newProductions);
     }
 
     
@@ -104,5 +132,15 @@ public class Factorizacion {
     
     private void removeFactorization() {
         
+    }
+
+    private String getLetter() {
+        int i=0;
+        for (boolean b : alphabet) {
+            if(!b)break;
+            i++;
+        }
+        alphabet[i]=true;
+        return ((char)((int)('A')+i)+"");
     }
 }
