@@ -1,0 +1,10 @@
+E->I
+E->E+E
+E->E*E
+E->(E)
+I->a
+I->b
+I->Ia
+I->Ib
+I->I0
+I->I1

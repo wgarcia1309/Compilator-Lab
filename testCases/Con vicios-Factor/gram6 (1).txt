@@ -1,0 +1,10 @@
+A->BCBDeL
+A->z
+B->aBB
+B->aBbB
+B->&
+C->DeF
+C->&
+D->abcd
+F->f
+L->l

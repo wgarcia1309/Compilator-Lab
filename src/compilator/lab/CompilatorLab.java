@@ -6,6 +6,7 @@
 package compilator.lab;
 
 import GUI.MainWin;
+import static java.awt.Frame.MAXIMIZED_BOTH;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Set;
