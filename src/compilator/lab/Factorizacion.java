@@ -95,28 +95,27 @@ public class Factorizacion {
         for (String key : keys) {
             ArrayList<String> alpha= new ArrayList<>(), beta= new ArrayList<>();
             newProductions.put(key, new LinkedHashSet<>());
-            boolean hasr=false;
+            boolean hasRecursi=false;            
             for (String result : minG.getProductions().get(key)) {
                 if(key.charAt(0)==result.charAt(0)){
-                    hasr=true;
-                    alpha.add(result.substring(1, result.length()-1));
+                    hasRecursi=true;
+                    if(result.length()>=2)alpha.add(result.substring(1, result.length()));
                 }else{
                     beta.add(result);
                 }
             }
-            if(hasr){
+            if(hasRecursi){
                 String nuevaletra=getLetter();
                 Set<String> set=new LinkedHashSet<>();
-                for (String string : beta) {
-                    set.add(beta+nuevaletra);
+                for (String B : beta) {
+                    set.add(B+nuevaletra);
                 }
-                newProductions.get(key).addAll(set);
                 newProductions.get(key).addAll(set);
                 set=new LinkedHashSet<>();
-                for (String string : alpha) {
-                    set.add(alpha+nuevaletra);
+                for (String A : alpha) {
+                    set.add(A+nuevaletra);
                 }
-                System.out.println(set.toString());
+                set.add("&");
                 newProductions.put(nuevaletra, set);
             }else{
                 newProductions.put(key, minG.getProductions().get(key) );

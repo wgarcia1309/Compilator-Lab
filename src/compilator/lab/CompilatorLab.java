@@ -12,7 +12,6 @@ import java.util.Hashtable;
 import java.util.Set;
 
 /**
- *
  * @author PC
  */
 public class CompilatorLab {
@@ -28,44 +27,6 @@ public class CompilatorLab {
         windows.setResizable(false);
         windows.setLocationRelativeTo(null);
         windows.setVisible(true);
-        
-        
-        Gramatic g= new Gramatic();
-        
-        
-        test6(g);
-        System.out.println("Productions");
-        Set<String> keys=g.getProductions().keySet();
-        for (String key : keys) {
-            System.out.println(key+"->"+g.getProductions().get(key));
-        }
-        g.compute();
-        System.out.println("First");
-        keys=g.getFisrts().keySet();
-        for (String key : keys) {
-            System.out.println(key+":"+g.getFisrts().get(key));
-        }
-        
-        System.out.println("Follow");
-        keys=g.getFollows().keySet();
-        for (String key : keys) {
-            System.out.println(key+":"+g.getFollows().get(key));
-        }        
-        M_table mTable= new M_table(g);
-        System.out.println("M table");
-        mTable.showt();
-        Syntax_analyzer sa = new Syntax_analyzer();
-        
-        sa.analisys("b", mTable);
-        /*
-        System.out.println("cb");
-        
-        /*
-        System.out.println("caaaaaab");
-        sa.analisys("caaaaaab", mTable,"S");
-        System.out.println("aaaaaaaaaa");
-        sa.analisys("aaaaaaaaaa", mTable,"S");
-        */
     }
 
     

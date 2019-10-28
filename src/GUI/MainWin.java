@@ -274,7 +274,9 @@ public class MainWin extends javax.swing.JFrame {
         }else{
             Factorizacion fact= new Factorizacion(dialog.getDirectory()+dialog.getFile() );
             Gramatic g=fact.getminG();
+            
             g.compute();
+            
             mt= new M_table(g);
             fillG(GramaticaSV,g.getProductions());
             fillG(GramaticaO,fact.getOriginalG().getProductions());
@@ -370,12 +372,12 @@ public class MainWin extends javax.swing.JFrame {
         TA.setEditable(false);
     }
 
-    private void fillG(JTextArea TA, LinkedHashMap<String, Set<String>> set) {
+    private void fillG(JTextArea TA, LinkedHashMap<String, Set<String>> hm) {
         TA.setEditable(true);
         TA.setText("");
-        Set<String> keys=mt.getNon_terminals();
+        Set<String> keys= hm.keySet();
         for (String key : keys) {
-            for (String prod : set.get(key)) {
+            for (String prod : hm.get(key)) {
                 TA.append(key+" -> "+prod+"\n");    
             }
         }

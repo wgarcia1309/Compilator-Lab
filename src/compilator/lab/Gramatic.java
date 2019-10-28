@@ -222,7 +222,6 @@ public class Gramatic {
     private boolean areEquals(LinkedHashMap<String, Set<String>> first, LinkedHashMap<String, Set<String>> newfirst) {
         Set<String> keys= this.first.keySet();
          for (String key : keys) {
-             System.out.println( this.first.get(key) +" "+newfirst.get(key));
              if(   !this.first.get(key).equals(newfirst.get(key))){
                 return false;
              }
