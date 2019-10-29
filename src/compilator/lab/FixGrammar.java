@@ -58,8 +58,14 @@ public class FixGrammar {
                     originalG.setInitial(sd[0]);
                     minG.setInitial(sd[0]);
                 }
-                minG.addPro(sd[0], sd[1]);
-                originalG.addPro(sd[0], sd[1]);
+                sd[1]=sd[1].replace("&", "");
+                if(sd[1].length()==0){
+                    minG.addPro(sd[0], "&");
+                    originalG.addPro(sd[0], "&" );
+                }else{
+                    minG.addPro(sd[0], sd[1]);
+                    originalG.addPro(sd[0], sd[1]);
+                }
                 alphabet[sd[0].charAt(0) - 'A'] = true;
                 line = br.readLine();
             }
