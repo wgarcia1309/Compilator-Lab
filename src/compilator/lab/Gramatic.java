@@ -87,8 +87,8 @@ public class Gramatic {
             }
             if(!areEquals(first,newfirst))invariable=0;
             else invariable++;
+            first=newfirst;
         } while ( invariable<3 );
-        first=newfirst;
     }
 
     private boolean isNonTerminal(char c) {
@@ -196,33 +196,41 @@ public class Gramatic {
      * FOLLOW(B).
      */
     private void regla3() {
+        LinkedHashMap<String, Set<String>> newfollow= new LinkedHashMap<String, Set<String>>();
+         int invariable=0;
+        do {
         Set<String> prokeys = productions.keySet();
-        for (String prokey : prokeys) {
-            for (String production : productions.get(prokey)) {
-                int i = production.length() - 1;
-                while (i >= 0) {
-                    if (isNonTerminal(production.charAt(i))) {
-                        combine(follow.get(production.charAt(i) + ""), follow.get(prokey));
-                        if (hasEpsilon(first.get((production.charAt(i) + "")))) {
-                            i--;
+        newfollow= (LinkedHashMap<String, Set<String>>) follow.clone();
+            for (String prokey : prokeys) {
+                for (String production : productions.get(prokey)) {
+                    int i = production.length() - 1;
+                    while (i >= 0) {
+                        if (isNonTerminal(production.charAt(i))) {
+                            combine(newfollow.get(production.charAt(i) + ""), newfollow.get(prokey));
+                            if (hasEpsilon(first.get((production.charAt(i) + "")))) {
+                                i--;
+                            } else {
+                                break;
+                            }
+
                         } else {
                             break;
                         }
-
-                    } else {
-                        break;
                     }
                 }
             }
-        }
+        
+            if(!areEquals(follow,newfollow))invariable=0;
+            else invariable++;
+            follow=newfollow;
+        } while ( invariable<3 );
     }
-
     
 
-    private boolean areEquals(LinkedHashMap<String, Set<String>> first, LinkedHashMap<String, Set<String>> newfirst) {
-        Set<String> keys= this.first.keySet();
+    private boolean areEquals(LinkedHashMap<String, Set<String>> original, LinkedHashMap<String, Set<String>> newone) {
+        Set<String> keys= original.keySet();
          for (String key : keys) {
-             if(   !this.first.get(key).equals(newfirst.get(key))){
+             if(!original.get(key).equals(newone.get(key))){
                 return false;
              }
         }

@@ -277,6 +277,13 @@ public class MainWin extends javax.swing.JFrame {
             
             g.compute();
             
+            
+            System.out.println("originales");
+            g.getProductions().forEach((k,v)->{
+                System.out.println(k+" "+v);
+            });
+            System.out.println("*************");
+            
             mt= new M_table(g);
             fillG(GramaticaSV,g.getProductions());
             fillG(GramaticaO,fact.getOriginalG().getProductions());
@@ -396,12 +403,19 @@ public class MainWin extends javax.swing.JFrame {
             return false;  
             }  
         };
+        
+        System.out.println("**********");
         int i=0;
         for (String non_terminal : mt.getNon_terminals()) {
                 model.setValueAt(non_terminal, i, 0);
             for (int j = 1; j < model.getColumnCount(); j++) {
+                System.out.println(non_terminal +" "+ model.getColumnName(j));
+                System.out.println(mt.getOut(non_terminal , model.getColumnName(j)));
                 String ans=mt.getOut(non_terminal, model.getColumnName(j));
-                if(ans!=null)model.setValueAt(non_terminal+"->"+ans, i, j);
+                if(ans!=null){
+                    model.setValueAt(non_terminal+"->"+ans, i, j);
+                    System.out.println(ans);
+                }
             }
             i++;
         }

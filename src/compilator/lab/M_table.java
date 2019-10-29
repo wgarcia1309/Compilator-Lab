@@ -56,9 +56,6 @@ public class M_table {
     }
 
     private void makeMTable() {
-        
-        
-    
         Set<String> prokeys = gram.getProductions().keySet();
         for (String prokey : prokeys) {
             Set<String> productions = gram.getProductions().get(prokey);
@@ -71,6 +68,7 @@ public class M_table {
                                 this.add(prokey, follow, production);
                             }
                         } else {
+                            System.out.println(prokey+" "+first+" "+ production);
                             this.add(prokey,first, production);
                         }
                     }
@@ -80,12 +78,12 @@ public class M_table {
                             this.add(prokey, follow, production);
                         }
                     } else {
+                        System.out.println(prokey +" "+  charact.toString()+" "+ production);
                         this.add(prokey, charact.toString(), production);
                     }
 
                 }
             }
-
         }
     }
 
