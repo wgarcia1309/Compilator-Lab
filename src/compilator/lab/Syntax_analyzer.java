@@ -41,14 +41,20 @@ public class Syntax_analyzer {
                 return arr;
     }
     public boolean analisys(String WORD, M_table mtable){
-        this.WORD = WORD;
+        this.WORD = WORD.replaceAll("&", "");
         this.mtable = mtable;
         stack = new Stack();
         input = new Stack();
         return process(mtable.gram.getInitial());
     }
     private boolean process(String source) {
-        tm= new DefaultTableModel(COLUMNS, 0);
+        tm= new DefaultTableModel(COLUMNS, 0){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        
+        };
         
         stack.push("$");
         stack.push(source);
@@ -104,6 +110,7 @@ public class Syntax_analyzer {
             tm.addRow(new String[]{stin[0],stin[1],"ERROR"});
             return false;
         }
+        
     }
 
 }

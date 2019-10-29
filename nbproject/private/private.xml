@@ -3,9 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="1"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/LinkRs/Desktop/Compiladores_W/Compilator-Lab/src/compilator/lab/Factorizacion.java</file>
-            <file>file:/C:/Users/LinkRs/Desktop/Compiladores_W/Compilator-Lab/src/compilator/lab/CompilatorLab.java</file>
-            <file>file:/C:/Users/LinkRs/Desktop/Compiladores_W/Compilator-Lab/src/GUI/MainWin.java</file>
+            <file>file:/C:/Users/LinkRs/Desktop/Compiladores_W/Compilator-Lab/src/compilator/lab/FixGrammar.java</file>
+            <file>file:/C:/Users/LinkRs/Desktop/Compiladores_W/Compilator-Lab/src/compilator/lab/M_table.java</file>
+            <file>file:/C:/Users/LinkRs/Desktop/Compiladores_W/Compilator-Lab/src/compilator/lab/Syntax_analyzer.java</file>
         </group>
     </open-files>
 </project-private>

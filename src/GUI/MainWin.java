@@ -5,7 +5,7 @@
  */
 package GUI;
 
-import compilator.lab.Factorizacion;
+import compilator.lab.FixGrammar;
 import compilator.lab.Gramatic;
 import compilator.lab.M_table;
 import compilator.lab.Syntax_analyzer;
@@ -272,7 +272,7 @@ public class MainWin extends javax.swing.JFrame {
         if(file==null){
             JOptionPane.showMessageDialog(null, "No ha selecionado ningun archivo");
         }else{
-            Factorizacion fact= new Factorizacion(dialog.getDirectory()+dialog.getFile() );
+            FixGrammar fact= new FixGrammar(dialog.getDirectory()+dialog.getFile() );
             Gramatic g=fact.getminG();
             
             g.compute();
